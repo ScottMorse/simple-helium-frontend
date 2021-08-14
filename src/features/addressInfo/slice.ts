@@ -1,18 +1,17 @@
 
 import { Account } from '@helium/http'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { FetchedData, NOT_YET_FETCHED } from 'lib/utils/dataStates'
 import { FetchAddressPayload } from './saga'
-
-export const ACCOUNT_NOT_FETCHED = 'ACCOUNT_NOT_FETCHED' as const
 
 export interface AddressInfoState {
   address: string,
-  account: Account | typeof ACCOUNT_NOT_FETCHED,
+  account: FetchedData<Account>,
 }
 
 const initialState: AddressInfoState = {
   address: '',
-  account: ACCOUNT_NOT_FETCHED
+  account: NOT_YET_FETCHED
 }
 
 export const addressInfoSlice = createSlice({
