@@ -1,8 +1,7 @@
 
 import { Account } from '@helium/http'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { FetchedData, NOT_YET_FETCHED } from 'lib/utils/dataStates'
-import { FetchAddressPayload } from './saga'
+import { FetchedData, DataStateEum } from 'lib/fetchedData/dataStates'
 
 export interface AddressInfoState {
   address: string,
@@ -11,7 +10,7 @@ export interface AddressInfoState {
 
 const initialState: AddressInfoState = {
   address: '',
-  account: NOT_YET_FETCHED
+  account: DataStateEum.PENDING
 }
 
 export const addressInfoSlice = createSlice({
@@ -21,11 +20,11 @@ export const addressInfoSlice = createSlice({
     setAddress: (state, { payload }: PayloadAction<{ address: string }>) => {
       state.address = payload.address
     },
+    fetchAccount: (state) => {
+      state.account = DataStateEum.BUSY
+    },
     getAccount: (state, { payload }: PayloadAction<{ account: Account }>) => {
       state.account = payload.account
     },
-    // getAddressInfo: (state: { payload }: PayloadAction<{ }>){
-
-    // }
   }
 })

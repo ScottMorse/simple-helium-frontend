@@ -1,5 +1,7 @@
 
-import { isFetched } from 'lib/utils/dataStates'
+import { Account } from '@helium/http'
+import { isFetched } from 'lib/fetchedData/dataStates'
+import { FetchedDataSwitch } from 'lib/fetchedData/FetchedDataSwitch'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'store'
@@ -14,5 +16,13 @@ export const Address = () => {
     dispatch(addressInfoSagaActions.FETCH_ADDRESS_INFO({ address: '12345' }))
   }, [])
 
-  return isFetched(account) ? <AddressAccount account={account}/> : <div>Loading</div>
+  return (
+    <FetchedDataSwitch
+      data={account}
+      Complete={() => <AddressAccount account={account as Account} />}
+      Busy={() => <div>Account loading</div>}
+      Pending={() => <div>Account not loaded</div>}
+      Error={() => <div>Error fetching Account</div>}
+    />
+  )
 }
